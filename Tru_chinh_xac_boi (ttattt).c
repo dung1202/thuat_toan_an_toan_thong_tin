@@ -1,18 +1,52 @@
 #include <stdio.h>
 #include <math.h>
 
-int p, w, e, d;
+int p, w, e, d, a[50], b[50];
 
 void nhap()
 {
+    int k;
     printf("nhap p = ");
     scanf("%d", &p);
     printf("nhap w = ");
     scanf("%d", &w);
-    printf("nhap a = ");
-    scanf("%d", &d);
-    printf("nhap b = ");
-    scanf("%d", &e);
+
+    while (1)
+    {
+        printf("\nban muon nhap nhu the nao??");
+        printf("\nchon 1 hoac 2");
+        printf("\n1. nhap so");
+        printf("\n2. nhap mang");
+        printf("\nban chon = ");
+        scanf("%d", &k);
+
+        if (k == 1)
+        {
+            printf("nhap a = ");
+            scanf("%d", &d);
+            printf("nhap b = ");
+            scanf("%d", &e);
+            tru_chinh_xac_boi(k);
+            break;
+        }
+        else if (k == 2)
+        {
+            int t;
+            t = tinh_t();
+            for (int i = t - 1; i >= 0; i--)
+            {
+                printf("\na[%d] = ", i);
+                scanf("%d", &a[i]);
+            }
+            for (int i = t - 1; i >= 0; i--)
+            {
+                printf("\nb[%d] = ", i);
+                scanf("%d", &b[i]);
+            }
+            tru_chinh_xac_boi(k);
+            break;
+        }
+    }
 }
 
 int tinh_t()
@@ -25,9 +59,10 @@ int tinh_t()
 int *bieu_dien_a(a)
 {
     static int mang[50];
-    int t, uoc, bieudien, j = 0;
-    bieudien = a;
+    int t;
     t = tinh_t();
+    int uoc, bieudien, j = t - 1;
+    bieudien = a;
     // printf("cac he so la");
     for (int i = t - 1; i >= 0; i--)
     {
@@ -35,35 +70,42 @@ int *bieu_dien_a(a)
         bieudien = bieudien - (pow(2, i * w) * uoc);
         mang[j] = uoc;
         // printf("\nhe so thu %d = %d,  %d", j + 1, uoc, mang[j]);
-        j++;
+        j--;
     }
     return mang;
 }
 
-void tru_chinh_xac_boi(d, e)
+void tru_chinh_xac_boi(int k)
 {
-    int *f, *g;
-    int a[50], b[50], c[50];
+    int c[50];
     int t, hieu, luythua, ep = 0;
     t = tinh_t();
-    f = bieu_dien_a(d);
-    for (int i = 0; i < t; i++)
+
+    if (k == 1)
     {
-        a[i] = *(f + i);
+        int *f, *g;
+        f = bieu_dien_a(d);
+        for (int i = 0; i < t; i++)
+        {
+            a[i] = *(f + i);
+            // printf("%d, ", a[i]);
+        }
+        g = bieu_dien_a(e);
+        for (int i = 0; i < t; i++)
+        {
+            b[i] = *(g + i);
+            // printf("%d, ", b[i]);
+        }
     }
-    g = bieu_dien_a(e);
-    for (int i = 0; i < t; i++)
-    {
-        b[i] = *(g + i);
-    }
+
     printf("\ncac he so va 'e' la");
-    for (int i = t - 1; i >= 0; i--)
+    for (int i = 0; i <= t - 1; i++)
     {
         hieu = a[i] - b[i] - ep;
         luythua = pow(2, w);
         if (hieu < 0)
         {
-            c[i] = luythua + hieu ;
+            c[i] = luythua + hieu;
             ep = 1;
         }
         else
@@ -71,14 +113,13 @@ void tru_chinh_xac_boi(d, e)
             ep = 0;
             c[i] = hieu;
         }
-        printf("\nc[%d] = %d, e = %d", (t-1)-i, c[i], ep);
+        printf("\nc[%d] = %d, e = %d", i, c[i], ep);
     }
 }
 
 int main()
 {
     nhap();
-    tru_chinh_xac_boi(d, e);
     // for (int i = 0; i < 4; i++)
     // {
     //     printf("\n*(p + %d) : %d", i, *(q + i)); // lấy giá trị q[i] = *(q + i)

@@ -26,7 +26,7 @@ void nhap()
             scanf("%d", &d);
             printf("nhap b = ");
             scanf("%d", &e);
-            cong_chinh_xac_boi(k);
+            tru_tren_f(k);
             break;
         }
         else if (k == 2)
@@ -43,7 +43,7 @@ void nhap()
                 printf("\nb[%d] = ", i);
                 scanf("%d", &b[i]);
             }
-            cong_chinh_xac_boi(k);
+            tru_tren_f(k);
             break;
         }
     }
@@ -75,20 +75,18 @@ int *bieu_dien_a(a)
     return mang;
 }
 
-void cong_chinh_xac_boi(int k)
+int *tru_chinh_xac_boi(k)
 {
-    int c[50], t;
+    static int c[50];
+    int t, hieu, luythua, ep = 0;
     t = tinh_t();
-    int tong, luythua, ep = 0;
     if (k == 1)
     {
         int *f, *g;
         f = bieu_dien_a(d);
-        printf("\n");
         for (int i = 0; i < t; i++)
         {
             a[i] = *(f + i);
-            // printf("%d, ", a[i]);
         }
         g = bieu_dien_a(e);
         for (int i = 0; i < t; i++)
@@ -96,7 +94,69 @@ void cong_chinh_xac_boi(int k)
             b[i] = *(g + i);
         }
     }
-    printf("\ncac he so va 'e' la");
+    // printf("\ncac he so va 'e' la");
+    for (int i = 0; i <= t - 1; i++)
+    {
+        hieu = a[i] - b[i] - ep;
+        luythua = pow(2, w);
+        if (hieu < 0)
+        {
+            c[i] = luythua + hieu;
+            ep = 1;
+        }
+        else
+        {
+            ep = 0;
+            c[i] = hieu;
+        }
+        // printf("\nc[%d] = %d, e = %d", i, c[i], ep);
+    }
+    c[t] = ep;
+    return c;
+}
+void tru_tren_f(k)
+{
+    int *f;
+    int t;
+    int c[50];
+    t = tinh_t();
+    f = tru_chinh_xac_boi(k);
+    for (int i = 0; i <= t; i++)
+    {
+        c[i] = *(f + (t - i - 1));
+        // printf("\nc[%d] = %d", i, c[i]);
+        if (i == t)
+        {
+            c[i] = *(f + t);
+        }
+    }
+    if (c[t] == 0)
+    {
+        for (int i = 0; i <= t - 1; i++)
+        {
+            printf("\nc[%d] = %d", i, c[i]);
+        }
+        printf("\n'e' = %d", c[t]);
+    }
+    else if (c[t] == 1)
+    {
+        cong_chinh_xac_boi(c);
+    }
+}
+
+void cong_chinh_xac_boi(int a[])
+{
+    int *g;
+    int b[50];
+    static c[50];
+    int t, tong, luythua, ep = 0;
+    t = tinh_t();
+    g = bieu_dien_a(p);
+    for (int i = 0; i < t; i++)
+    {
+        b[i] = *(g + i);
+    }
+    // printf("\ncac he so va 'e' la");
     for (int i = 0; i <= t - 1; i++)
     {
         tong = a[i] + b[i] + ep;
