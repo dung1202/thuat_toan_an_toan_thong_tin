@@ -56,12 +56,13 @@ int tinh_t()
     t = (m / w) + 1;
     return t;
 }
-int *bieu_dien_a(a)
+int *bieu_dien_a(long long a)
 {
     static int mang[50];
     int t;
     t = tinh_t();
-    int uoc, bieudien, j = t - 1;
+    int j = t - 1;
+    long long uoc, bieudien;
     bieudien = a;
     // printf("cac he so la");
     for (int i = t - 1; i >= 0; i--)
@@ -115,7 +116,7 @@ int *cong_chinh_xac_boi(k)
     return c;
 }
 
-void tru_chinh_xac_boi(int so_c, int p)
+void tru_chinh_xac_boi(long long so_c, int p)
 {
     int *f, *g;
     int c[50];
