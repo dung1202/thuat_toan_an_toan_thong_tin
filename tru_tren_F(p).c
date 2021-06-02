@@ -148,7 +148,7 @@ void cong_chinh_xac_boi(int a[])
 {
     int *g;
     int b[50];
-    static c[50];
+    static int c[50];
     int t, tong, luythua, ep = 0;
     t = tinh_t();
     g = bieu_dien_a(p);
