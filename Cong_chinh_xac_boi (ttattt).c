@@ -101,7 +101,7 @@ void cong_chinh_xac_boi(int k)
     {
         tong = a[i] + b[i] + ep;
         luythua = pow(2, w);
-        if (tong > pow(2, w))
+        if (tong >= pow(2, w))
         {
             c[i] = tong % luythua;
             ep = 1;

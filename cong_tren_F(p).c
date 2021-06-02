@@ -100,7 +100,7 @@ int *cong_chinh_xac_boi(k)
     {
         tong = a[i] + b[i] + ep;
         luythua = pow(2, w);
-        if (tong > pow(2, w))
+        if (tong >= pow(2, w))
         {
             c[i] = tong % luythua;
             ep = 1;
@@ -137,7 +137,7 @@ void tru_chinh_xac_boi(long long so_c, int p)
     {
         hieu = a[i] - b[i] - ep;
         luythua = pow(2, w);
-        if (hieu < 0)
+        if (hieu <= 0)
         {
             c[i] = luythua + hieu;
             ep = 1;

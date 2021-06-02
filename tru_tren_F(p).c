@@ -99,7 +99,7 @@ int *tru_chinh_xac_boi(k)
     {
         hieu = a[i] - b[i] - ep;
         luythua = pow(2, w);
-        if (hieu < 0)
+        if (hieu <= 0)
         {
             c[i] = luythua + hieu;
             ep = 1;
@@ -123,7 +123,7 @@ void tru_tren_f(k)
     f = tru_chinh_xac_boi(k);
     for (int i = 0; i <= t; i++)
     {
-        c[i] = *(f + (t - i - 1));
+        c[i] = *(f + i);
         // printf("\nc[%d] = %d", i, c[i]);
         if (i == t)
         {
@@ -155,13 +155,14 @@ void cong_chinh_xac_boi(int a[])
     for (int i = 0; i < t; i++)
     {
         b[i] = *(g + i);
+        printf("\nb[%d] = %d, a[%d] = %d", i, b[i], i, a[i]);
     }
     // printf("\ncac he so va 'e' la");
     for (int i = 0; i <= t - 1; i++)
     {
         tong = a[i] + b[i] + ep;
         luythua = pow(2, w);
-        if (tong > pow(2, w))
+        if (tong >= pow(2, w))
         {
             c[i] = tong % luythua;
             ep = 1;
