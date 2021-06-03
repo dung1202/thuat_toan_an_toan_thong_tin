@@ -103,7 +103,7 @@ void tru_chinh_xac_boi(int k)
     {
         hieu = a[i] - b[i] - ep;
         luythua = pow(2, w);
-        if (hieu <= 0)
+        if (hieu < 0)
         {
             c[i] = luythua + hieu;
             ep = 1;

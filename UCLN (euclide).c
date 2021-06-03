@@ -14,12 +14,19 @@ void nhap()
 void tim_ucln()
 {
     int r;
+    if (a < b)
+    {
+        r = a;
+        a = b;
+        b = r;
+    }
     while (b > 0)
     {
         r = a % b;
         a = b;
         b = r;
     }
+
     printf("\nUCLN = %d", a);
 }
 
