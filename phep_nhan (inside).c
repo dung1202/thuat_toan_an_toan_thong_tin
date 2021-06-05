@@ -2,7 +2,7 @@
 #include <math.h>
 
 int w;
-long long p, d, e, a[100], b[100];
+long long p, d, e, a[100], b[100], mang[221];
 
 void nhap()
 {
@@ -14,7 +14,7 @@ void nhap()
 
     while (1)
     {
-        printf("\nban muon nhap nhu the nao??");
+        printf("\n\nban muon nhap nhu the nao??");
         printf("\nchon 1 hoac 2");
         printf("\n1. nhap so");
         printf("\n2. nhap mang");
@@ -27,7 +27,7 @@ void nhap()
             scanf("%lld", &d);
             printf("nhap b = ");
             scanf("%lld", &e);
-            tru_chinh_xac_boi(k);
+            phep_nhan(k);
             break;
         }
         else if (k == 2)
@@ -46,7 +46,7 @@ void nhap()
                 printf("b[%d] = ", i);
                 scanf("%lld", &b[i]);
             }
-            tru_chinh_xac_boi(k);
+            phep_nhan(k);
             break;
         }
     }
@@ -61,7 +61,7 @@ int tinh_t()
 }
 long long *bieu_dien_a(long long a)
 {
-    static long long mang[50];
+    static long long mang[100];
     int t;
     t = tinh_t();
     long long uoc, luythua;
@@ -79,46 +79,91 @@ long long *bieu_dien_a(long long a)
     return mang;
 }
 
-void tru_chinh_xac_boi(int k)
+void phep_nhan(k)
 {
-    long long c[100], luythua;
-    int t, hieu, ep = 0;
+    long long c[100], uv, luythua;
+    luythua = pow(2, w);
+    int t, u, v;
     t = tinh_t();
-
     if (k == 1)
     {
         long long *f, *g;
         f = bieu_dien_a(d);
-        for (int i = 0; i < t; i++)
+        for (int i = 0; i <= t - 1; i++)
         {
             a[i] = *(f + i);
-            // printf("%d, ", a[i]);
+            // printf("\na[%d] = %d", i, a[i]);
         }
         g = bieu_dien_a(e);
-        for (int i = 0; i < t; i++)
+        for (int i = 0; i <= t - 1; i++)
         {
             b[i] = *(g + i);
-            // printf("%d, ", b[i]);
         }
     }
+    for (int i = 0; i <= (2 * t) - 1; i++)
+    {
+        c[i] = 0;
+    }
+    // ==========================================
 
-    printf("\ncac he so va 'e' la");
     for (int i = 0; i <= t - 1; i++)
     {
-        hieu = a[i] - b[i] - ep;
-        luythua = pow(2, w);
-        if (hieu < 0)
+        u = 0;
+        for (int j = 0; j <= t - 1; j++)
         {
-            c[i] = luythua + hieu;
-            ep = 1;
+            uv = c[i + j] + a[i] * b[j] + u;
+            chuyen_co_so_nhi_phan(uv);
+            u = mang[0];
+            v = mang[1];
+            c[i + j] = v;
+            // printf("\nc[%d] = %d, u = %d, v=%d", i+j, c[i+j], u, v);
         }
-        else
-        {
-            ep = 0;
-            c[i] = hieu;
-        }
-        printf("\nc[%d] = %lld, e = %d", i, c[i], ep);
+        c[i + t] = u;
     }
+    for (int i = 0; i < w; i++)
+    {
+        printf("\nc[%d] = %lld", i, c[i]);
+    }
+}
+
+void chuyen_co_so_nhi_phan(long long x)
+{
+    int u[50], v[50];
+    int j = 0;
+    for (int i = 0; i < w; i++)
+    {
+        v[i] = 0;
+        u[i] = 0;
+        if (i < 2)
+        {
+            mang[i] = 0;
+        }
+    }
+    int i = (2 * w) - 1;
+    while (x != 0)
+    {
+        if ((x % 2) == 1)
+        {
+            if (i > w - 1)
+            {
+                v[i - w] = 1;
+            }
+            else
+            {
+                u[i] = 1;
+            }
+        }
+        x = x / 2;
+        i--;
+    }
+    for (int i = w - 1; i >= 0; i--)
+    {
+        mang[0] = mang[0] + u[i] * pow(2, j);
+        mang[1] = mang[1] + v[i] * pow(2, j);
+        // printf("\n u = %d,  v = %d", u[i], v[i]);
+        j++;
+    }
+    // printf("\n u = %d,  v = %d", mang[0], mang[1]);
 }
 
 int main()

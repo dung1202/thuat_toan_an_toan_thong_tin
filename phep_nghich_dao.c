@@ -47,6 +47,7 @@ void nghich_dao()
         printf("\n q = %d, r = %d, x = %d, v = %d, u = %d, x2 = %d, x1 = %d", q, r, x, v, u, x2, x1);
     }
     printf("\n%d mod %d", x1, p);
+    printf("\nx1 = %d", x1);
 }
 
 int main()

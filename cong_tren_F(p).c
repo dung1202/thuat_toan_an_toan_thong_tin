@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <math.h>
 
-int p, w, e, d, a[50], b[50];
+int w;
+long long p, d, e, a[100], b[100];
 
 void nhap()
 {
     int k;
     printf("nhap p = ");
-    scanf("%d", &p);
+    scanf("%lld", &p);
     printf("nhap w = ");
     scanf("%d", &w);
-
     while (1)
     {
         printf("\n\nban muon nhap nhu the nao??");
@@ -23,9 +23,9 @@ void nhap()
         if (k == 1)
         {
             printf("nhap a = ");
-            scanf("%d", &d);
+            scanf("%lld", &d);
             printf("nhap b = ");
-            scanf("%d", &e);
+            scanf("%lld", &e);
             cong_tren_F(k);
             break;
         }
@@ -33,15 +33,17 @@ void nhap()
         {
             int t;
             t = tinh_t();
+            printf("\nnhap mang cua a\n");
             for (int i = t - 1; i >= 0; i--)
             {
                 printf("\na[%d] = ", i);
-                scanf("%d", &a[i]);
+                scanf("%lld", &a[i]);
             }
+            printf("\nnhap mang cua b\n");
             for (int i = t - 1; i >= 0; i--)
             {
                 printf("\nb[%d] = ", i);
-                scanf("%d", &b[i]);
+                scanf("%lld", &b[i]);
             }
             cong_tren_F(k);
             break;
@@ -52,23 +54,23 @@ void nhap()
 int tinh_t()
 {
     int t, m;
-    m = (log(p) / log(2)) + 1;
-    t = (m / w) + 1;
+    m = ceil(log(p) / log(2));
+    t = ceil((float)m / w);
     return t;
 }
-int *bieu_dien_a(long long a)
+long long *bieu_dien_a(long long a)
 {
-    static int mang[50];
+    static long long mang[100];
     int t;
     t = tinh_t();
+    long long uoc, luythua;
     int j = t - 1;
-    long long uoc, bieudien;
-    bieudien = a;
     // printf("cac he so la");
     for (int i = t - 1; i >= 0; i--)
     {
-        uoc = bieudien / pow(2, i * w);
-        bieudien = bieudien - (pow(2, i * w) * uoc);
+        luythua = pow(2, i * w);
+        uoc = a / luythua;
+        a = a % luythua;
         mang[j] = uoc;
         // printf("\nhe so thu %d = %d,  %d", j + 1, uoc, mang[j]);
         j--;
@@ -76,14 +78,15 @@ int *bieu_dien_a(long long a)
     return mang;
 }
 
-int *cong_chinh_xac_boi(k)
+long long *cong_chinh_xac_boi(int k)
 {
-    static int c[50];
-    int t, tong, luythua, ep = 0;
+    static long long c[50];
+    int t, ep = 0;
+    long long luythua, tong;
     t = tinh_t();
     if (k == 1)
     {
-        int *f, *g;
+        long long *f, *g;
         f = bieu_dien_a(d);
         for (int i = 0; i < t; i++)
         {
@@ -116,21 +119,16 @@ int *cong_chinh_xac_boi(k)
     return c;
 }
 
-void tru_chinh_xac_boi(long long so_c, int p)
+void tru_chinh_xac_boi(long long a[], long long p)
 {
-    int *f, *g;
-    int c[50];
-    int t, hieu, luythua, ep = 0;
+    long long *f, hieu, luythua;
+    long long c[100];
+    int t, ep = 0;
     t = tinh_t();
-    f = bieu_dien_a(so_c);
+    f = bieu_dien_a(p);
     for (int i = 0; i < t; i++)
     {
-        a[i] = *(f + i);
-    }
-    g = bieu_dien_a(p);
-    for (int i = 0; i < t; i++)
-    {
-        b[i] = *(g + i);
+        b[i] = *(f + i);
     }
     printf("\ncac he so va 'e' la");
     for (int i = 0; i <= t - 1; i++)
@@ -147,11 +145,11 @@ void tru_chinh_xac_boi(long long so_c, int p)
             ep = 0;
             c[i] = hieu;
         }
-        printf("\nc[%d] = %d, e = %d", i, c[i], ep);
+        printf("\nc[%d] = %lld, e = %d", i, c[i], ep);
     }
 }
 
-long long so_chinh_xac(int c[])
+long long so_chinh_xac(long long c[])
 {
     int t;
     long long tong = 0;
@@ -168,10 +166,9 @@ long long so_chinh_xac(int c[])
 
 void cong_tren_F(k)
 {
-    int *f;
+    long long *f, c[100];
     int t;
     long long so_c;
-    int c[50];
     t = tinh_t();
     f = cong_chinh_xac_boi(k);
     for (int i = 0; i <= t; i++)
@@ -188,18 +185,18 @@ void cong_tren_F(k)
         {
             for (int i = 0; i <= t - 1; i++)
             {
-                printf("\nc[%d] = %d", i, c[i]);
+                printf("\nc[%d] = %lld", i, c[i]);
             }
-            printf("\nso 'e' = %d", c[t]);
+            printf("\nso 'e' = %lld", c[t]);
         }
         else
         {
-            tru_chinh_xac_boi(so_c, p);
+            tru_chinh_xac_boi(c, p);
         }
     }
     else if (c[t] == 1)
     {
-        tru_chinh_xac_boi(so_c, p);
+        tru_chinh_xac_boi(c, p);
     }
 }
 

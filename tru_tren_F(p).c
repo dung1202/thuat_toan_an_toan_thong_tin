@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <math.h>
 
-int p, w, e, d, a[50], b[50];
+int w;
+long long p, d, e, a[100], b[100];
 
 void nhap()
 {
     int k;
     printf("nhap p = ");
-    scanf("%d", &p);
+    scanf("%lld", &p);
     printf("nhap w = ");
     scanf("%d", &w);
 
@@ -23,9 +24,9 @@ void nhap()
         if (k == 1)
         {
             printf("nhap a = ");
-            scanf("%d", &d);
+            scanf("%lld", &d);
             printf("nhap b = ");
-            scanf("%d", &e);
+            scanf("%lld", &e);
             tru_tren_f(k);
             break;
         }
@@ -33,15 +34,17 @@ void nhap()
         {
             int t;
             t = tinh_t();
+            printf("\nnhap mang cua a\n");
             for (int i = t - 1; i >= 0; i--)
             {
-                printf("\na[%d] = ", i);
-                scanf("%d", &a[i]);
+                printf("a[%d] = ", i);
+                scanf("%lld", &a[i]);
             }
+            printf("\nnhap mang cua b\n");
             for (int i = t - 1; i >= 0; i--)
             {
-                printf("\nb[%d] = ", i);
-                scanf("%d", &b[i]);
+                printf("b[%d] = ", i);
+                scanf("%lld", &b[i]);
             }
             tru_tren_f(k);
             break;
@@ -52,22 +55,23 @@ void nhap()
 int tinh_t()
 {
     int t, m;
-    m = (log(p) / log(2)) + 1;
-    t = (m / w) + 1;
+    m = ceil(log(p) / log(2));
+    t = ceil((float)m / w);
     return t;
 }
-int *bieu_dien_a(a)
+long long *bieu_dien_a(long long a)
 {
-    static int mang[50];
+    static long long mang[100];
     int t;
     t = tinh_t();
-    int uoc, bieudien, j = t - 1;
-    bieudien = a;
+    long long uoc, luythua;
+    int j = t - 1;
     // printf("cac he so la");
     for (int i = t - 1; i >= 0; i--)
     {
-        uoc = bieudien / pow(2, i * w);
-        bieudien = bieudien - (pow(2, i * w) * uoc);
+        luythua = pow(2, i * w);
+        uoc = a / luythua;
+        a = a % luythua;
         mang[j] = uoc;
         // printf("\nhe so thu %d = %d,  %d", j + 1, uoc, mang[j]);
         j--;
@@ -75,14 +79,15 @@ int *bieu_dien_a(a)
     return mang;
 }
 
-int *tru_chinh_xac_boi(k)
+long long *tru_chinh_xac_boi(int k)
 {
-    static int c[50];
-    int t, hieu, luythua, ep = 0;
+    static long long c[100];
+    long long hieu, luythua;
+    int t, ep = 0;
     t = tinh_t();
     if (k == 1)
     {
-        int *f, *g;
+        long long *f, *g;
         f = bieu_dien_a(d);
         for (int i = 0; i < t; i++)
         {
@@ -114,11 +119,10 @@ int *tru_chinh_xac_boi(k)
     c[t] = ep;
     return c;
 }
-void tru_tren_f(k)
+void tru_tren_f(int k)
 {
-    int *f;
+    long long *f, c[100];
     int t;
-    int c[50];
     t = tinh_t();
     f = tru_chinh_xac_boi(k);
     for (int i = 0; i <= t; i++)
@@ -132,11 +136,12 @@ void tru_tren_f(k)
     }
     if (c[t] == 0)
     {
+        printf("\ncac he so va 'e' la");
         for (int i = 0; i <= t - 1; i++)
         {
-            printf("\nc[%d] = %d", i, c[i]);
+            printf("\nc[%d] = %lld", i, c[i]);
         }
-        printf("\n'e' = %d", c[t]);
+        printf("\n'e' = %lld", c[t]);
     }
     else if (c[t] == 1)
     {
@@ -144,20 +149,19 @@ void tru_tren_f(k)
     }
 }
 
-void cong_chinh_xac_boi(int a[])
+void cong_chinh_xac_boi(long long a[])
 {
-    int *g;
-    int b[50];
-    static int c[50];
-    int t, tong, luythua, ep = 0;
+    long long *g, tong, luythua;
+    long long c[100];
+    int t, ep = 0;
     t = tinh_t();
     g = bieu_dien_a(p);
     for (int i = 0; i < t; i++)
     {
         b[i] = *(g + i);
-        printf("\nb[%d] = %d, a[%d] = %d", i, b[i], i, a[i]);
+        // printf("\nb[%d] = %d, a[%d] = %d", i, b[i], i, a[i]);
     }
-    // printf("\ncac he so va 'e' la");
+    printf("\ncac he so va 'e' la");
     for (int i = 0; i <= t - 1; i++)
     {
         tong = a[i] + b[i] + ep;
@@ -172,16 +176,12 @@ void cong_chinh_xac_boi(int a[])
             ep = 0;
             c[i] = tong;
         }
-        printf("\nc[%d] = %d, e = %d", i, c[i], ep);
+        printf("\nc[%d] = %lld, e = %d", i, c[i], ep);
     }
 }
 
 int main()
 {
     nhap();
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     printf("\n*(p + %d) : %d", i, *(q + i)); // lấy giá trị q[i] = *(q + i)
-    // }
     return 0;
 }
